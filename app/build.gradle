@@ -21,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/library_release.kotlin_module'
+    }
 }
 
 def koin_version = '2.0.1'
@@ -32,27 +36,33 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
 
     // Networking
     implementation "com.squareup.okhttp3:okhttp:$ok_http"
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http"
 
-
     // Ui stuff
+    implementation 'com.github.Defuera:lilwidgets:9886a58c8036f39c5a08a1bab97f3c4e61810c7f'
     implementation 'com.github.Defuera:duper-adapter:60a36a2d4ec64a58d16f9b1bd84fff1ae304502f'
     implementation 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
 
-
     // Live data
     implementation "androidx.lifecycle:lifecycle-livedata:2.1.0"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
 
     // di
     implementation "org.koin:koin-core:$koin_version"
     implementation "org.koin:koin-androidx-scope:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
+    // json
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+
+
     // tests
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation "androidx.fragment:fragment-testing:1.1.0"
 }

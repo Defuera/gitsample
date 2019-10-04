@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.koin.android.ext.android.get
 import ru.justd.githubrepos.app.Router
-import ru.justd.githubrepos.repositories.RepositoriesFragment
 
 /**
  * Тестовое github api два фрагмента, первый строка ввода (пользователь вводит имя
@@ -23,10 +22,7 @@ class MainActivity : AppCompatActivity() {
         router.init(this)
 
         if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, RepositoriesFragment())
-                .commit()
+            router.showSearchPage()
         }
     }
 }

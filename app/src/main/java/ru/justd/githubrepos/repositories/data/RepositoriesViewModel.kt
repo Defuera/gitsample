@@ -1,12 +1,17 @@
 package ru.justd.githubrepos.repositories.data
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.*
 import ru.justd.githubrepos.app.Router
+import ru.justd.githubrepos.extentions.exhaustive
 
 sealed class Event {
     class RepositoryClicked(val item: Repository) : Event()
     class SearchInputUpdate(val username: String) : Event()
 }
+
+private const val DEBOUNCE_TIME_MS = 600L
 
 class RepositoriesViewModel(
     private val interactor: RepositoriesInteractor,
@@ -14,6 +19,7 @@ class RepositoriesViewModel(
     val stateHolder: RepositoriesStateHolder
 ) : ViewModel() {
 
+    private var query = ""
 
     init {
         stateHolder.setInitialState()
@@ -26,8 +32,27 @@ class RepositoriesViewModel(
         }
     }
 
-    private fun onSearchInputFieldUpdated(username: String) {
+    private fun onSearchInputFieldUpdated(input: String) {
+        if (query != input) {
+            query = input
+            GlobalScope.launch {
+                delay(DEBOUNCE_TIME_MS)
+                if (query == input) {
+                    fetchRepositories(query)
+                }
+            }
+        }
+    }
 
+    private fun fetchRepositories(query: String) {
+        viewModelScope.launch {
+            stateHolder.setLoadingState()
+            val result = withContext(Dispatchers.IO) { interactor.getRepositories(query) }
+            when (result) {
+                is Result.Error -> stateHolder.setErrorState(result.errorMessage)
+                is Result.Success -> TODO()
+            }.exhaustive
+        }
     }
 
     private fun onRepositoryClicked(item: Repository) {

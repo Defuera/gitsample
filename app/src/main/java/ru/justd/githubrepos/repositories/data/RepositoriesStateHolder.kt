@@ -1,5 +1,6 @@
 package ru.justd.githubrepos.repositories.data
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -16,7 +17,7 @@ class RepositoriesStateHolder {
     fun setDataState(repositories: List<Repository>) =
         stateHolderLiveData.postValue(RepositoriesState.Data(repositories))
 
-    fun setErrorState(errorMessage: String) =
+    fun setErrorState(@StringRes errorMessage: Int) =
         stateHolderLiveData.postValue(RepositoriesState.Error(errorMessage))
 
     fun observe(owner: LifecycleOwner, observer: Observer<RepositoriesState>) {
@@ -30,5 +31,5 @@ sealed class RepositoriesState {
     object Initial : RepositoriesState()
     object Loading : RepositoriesState()
     data class Data(val repositories: List<Repository>) : RepositoriesState()
-    data class Error(val errorMessage: String) : RepositoriesState()
+    data class Error(@StringRes val errorMessage: Int) : RepositoriesState()
 }

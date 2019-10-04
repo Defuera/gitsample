@@ -3,4 +3,6 @@
     <string name="query_hint">Username</string>
     <string name="private_repository">Private</string>
     <string name="forked_repository">Forked</string>
+    <string name="network_error">Network error</string>
+    <string name="generic_error">Please try again later</string>
 </resources>

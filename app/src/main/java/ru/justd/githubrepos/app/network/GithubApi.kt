@@ -23,5 +23,5 @@ class GithubApi(private val okHttp: OkHttpClient) {
 
 }
 
-private fun String.withPathParam(param: String): String = replace(Regex("\\{.+}"), param)
+private fun String.withPathParam(param: String): String = replace(Regex("\\{.+\\}"), param)
 

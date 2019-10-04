@@ -4,6 +4,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import ru.justd.githubrepos.app.network.GithubApi
+import java.util.concurrent.TimeUnit
 
 object AppModule {
 
@@ -16,6 +17,9 @@ object AppModule {
                         level = HttpLoggingInterceptor.Level.BASIC
                     }
                 )
+                .callTimeout(2, TimeUnit.SECONDS)
+                .connectTimeout(2, TimeUnit.SECONDS)
+                .readTimeout(2, TimeUnit.SECONDS)
                 .build()
 
         }

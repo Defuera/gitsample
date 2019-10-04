@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.annotation.StringRes
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -11,17 +14,21 @@ import kotterknife.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.justd.duperadapter.ArrayListDuperAdapter
 import ru.justd.githubrepos.R
+import ru.justd.githubrepos.app.widgets.ErrorWidget
 import ru.justd.githubrepos.extentions.exhaustive
 import ru.justd.githubrepos.repositories.data.Event
 import ru.justd.githubrepos.repositories.data.RepositoriesState
 import ru.justd.githubrepos.repositories.data.RepositoriesViewModel
 import ru.justd.githubrepos.repositories.data.Repository
+import ru.justd.lilwidgets.LilLoaderWidget
 
 class RepositoriesFragment : Fragment() {
 
     private val viewModel by viewModel<RepositoriesViewModel>()
 
+    private val searchView by bindView<EditText>(R.id.search_view)
     private val recycler by bindView<RecyclerView>(R.id.recycler_view)
+    private val lilWidget by bindView<LilLoaderWidget>(R.id.lil_widget)
 
     private val adapter = ArrayListDuperAdapter().apply {
         addViewType<Repository, RepositoryWidget>(Repository::class.java)
@@ -39,10 +46,10 @@ class RepositoriesFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_repositories, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        searchView.addTextChangedListener { text -> viewModel.dispatch(Event.SearchInputUpdate(text.toString())) }
         recycler.adapter = adapter
 
         viewModel.stateHolder.observe(this,
@@ -59,19 +66,22 @@ class RepositoriesFragment : Fragment() {
     //region ui states
 
     private fun showInitialState() {
-
+        lilWidget.hide()
     }
 
     private fun showLoadingState() {
-
+        lilWidget.showLoading()
     }
 
-    private fun showError(errorMessage: String) {
-
+    private fun showError(@StringRes errorMessage: Int) {
+        lilWidget.showError {
+            ErrorWidget(it).apply { errorText = errorMessage }
+        }
     }
 
     private fun showData(repositories: List<Repository>) {
-
+        lilWidget.hide()
+        adapter.addAll(repositories)
     }
 
     //endregion
