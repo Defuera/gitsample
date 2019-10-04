@@ -5,4 +5,5 @@
     <string name="forked_repository">Forked</string>
     <string name="network_error">Network error</string>
     <string name="generic_error">Please try again later</string>
+    <string name="no_data">No repositories found</string>
 </resources>

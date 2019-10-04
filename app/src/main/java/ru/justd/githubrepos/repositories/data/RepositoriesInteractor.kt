@@ -1,24 +1,43 @@
 package ru.justd.githubrepos.repositories.data
 
 import androidx.annotation.StringRes
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import ru.justd.githubrepos.R
 import ru.justd.githubrepos.app.network.GithubApi
+
 
 class RepositoriesInteractor(
     private val api: GithubApi
 ) {
+
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+
     fun getRepositories(query: String): Result {
         return try {
             val response = api.getUserRepositories(query)
             if (response.isSuccessful) {
-                val typeToken = object : TypeToken<List<Repository>>() {}.type
-                val repos = Gson().fromJson<List<Repository>>(response.body.toString(), typeToken)
-                Result.Success(repos)
+                val jsonString = response.body?.string()
+                    ?: return Result.Error(R.string.generic_error)
+
+                val listMyData =
+                    Types.newParameterizedType(List::class.java, Repository::class.java)
+                val adapter = moshi.adapter<List<Repository>>(listMyData)
+                val repos = adapter.fromJson(jsonString)
+                if (repos.isNullOrEmpty()) {
+                    Result.Error(R.string.generic_error)
+                } else {
+                    Result.Success(repos)
+                }
             } else {
-                //get server error
-                Result.Error(R.string.generic_error)
+                if (response.code == 404) {
+                    Result.Error(R.string.no_data)
+                } else {
+                    Result.Error(R.string.generic_error)
+                }
             }
 
         } catch (e: Exception) {

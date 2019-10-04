@@ -25,11 +25,18 @@ class RepositoriesViewModel(
         stateHolder.setInitialState()
     }
 
+
+    //region handle events
+
     fun dispatch(event: Event) {
         when (event) {
             is Event.RepositoryClicked -> onRepositoryClicked(event.item)
             is Event.SearchInputUpdate -> onSearchInputFieldUpdated(event.username)
         }
+    }
+
+    private fun onRepositoryClicked(item: Repository) {
+        router.navigateToRepositoryPage(item.id)
     }
 
     private fun onSearchInputFieldUpdated(input: String) {
@@ -44,20 +51,18 @@ class RepositoriesViewModel(
         }
     }
 
+    //endregion
+
+
     private fun fetchRepositories(query: String) {
         viewModelScope.launch {
             stateHolder.setLoadingState()
             val result = withContext(Dispatchers.IO) { interactor.getRepositories(query) }
             when (result) {
                 is Result.Error -> stateHolder.setErrorState(result.errorMessage)
-                is Result.Success -> TODO()
+                is Result.Success -> stateHolder.setDataState(result.repository)
             }.exhaustive
         }
     }
-
-    private fun onRepositoryClicked(item: Repository) {
-        router.navigateToRepositoryPage(item.id)
-    }
-
 
 }

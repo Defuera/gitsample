@@ -10,6 +10,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutParams.MATCH_PARENT
+import androidx.recyclerview.widget.RecyclerView.LayoutParams.WRAP_CONTENT
 import kotterknife.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.justd.duperadapter.ArrayListDuperAdapter
@@ -32,7 +34,11 @@ class RepositoriesFragment : Fragment() {
 
     private val adapter = ArrayListDuperAdapter().apply {
         addViewType<Repository, RepositoryWidget>(Repository::class.java)
-            .addViewCreator { parent -> RepositoryWidget(parent.context) }
+            .addViewCreator { parent ->
+                RepositoryWidget(parent.context).apply {
+                    layoutParams = RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+                }
+            }
             .addViewBinder { widget, item -> widget.bind(item) }
             .addClickListener { _, item -> viewModel.dispatch(Event.RepositoryClicked(item)) }
             .commit()
@@ -67,19 +73,23 @@ class RepositoriesFragment : Fragment() {
 
     private fun showInitialState() {
         lilWidget.hide()
+        recycler.visibility = View.INVISIBLE
     }
 
     private fun showLoadingState() {
         lilWidget.showLoading()
+        recycler.visibility = View.INVISIBLE
     }
 
     private fun showError(@StringRes errorMessage: Int) {
+        recycler.visibility = View.INVISIBLE
         lilWidget.showError {
             ErrorWidget(it).apply { errorText = errorMessage }
         }
     }
 
     private fun showData(repositories: List<Repository>) {
+        recycler.visibility = View.VISIBLE
         lilWidget.hide()
         adapter.addAll(repositories)
     }

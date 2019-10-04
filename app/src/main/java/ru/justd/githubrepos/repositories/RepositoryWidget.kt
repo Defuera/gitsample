@@ -25,9 +25,9 @@ class RepositoryWidget(context: Context) : LinearLayout(context) {
         privateLabel.setVisibleOrGone(repository.private)
         forkedLabel.setVisibleOrGone(repository.fork)
         nameLabel.text = repository.name
-        starsValue.text = repository.stargazers.toString()
+        starsValue.text = repository.stargazers?.toString() ?: "0"
         forksValue.text = repository.forks.toString()
-        languageValue.text = repository.language
+        languageValue.text = repository.language ?: ""
     }
 
 
