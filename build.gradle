@@ -19,7 +19,8 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven { url "https://jitpack.io" } //for duper adapter
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' } //for kotterknife
     }
 }
 
