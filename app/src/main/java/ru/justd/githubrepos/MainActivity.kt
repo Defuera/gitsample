@@ -10,6 +10,8 @@ import ru.justd.githubrepos.app.Router
  * github user и на первом экране смотри список репозиториев. Клик по репозиторию
  * показывает список коммитов. Нельзя использовать retrofit, можно gson, okhttp.
  * поворот должен быть проработан. Делай как приложение в прод. Котлин корутины.
+ *
+ * https://developer.github.com/v3/repos/#list-user-repositories
  */
 class MainActivity : AppCompatActivity() {
 

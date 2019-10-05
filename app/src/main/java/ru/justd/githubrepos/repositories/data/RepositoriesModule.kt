@@ -7,7 +7,9 @@ object RepositoriesModule {
 
     val module = module {
 
-        factory { RepositoriesInteractor(api = get()) }
+        factory { RepositoryDataSource(api = get()) }
+
+        factory { RepositoriesInteractor(dataSource = get()) }
 
         viewModel { RepositoriesViewModel(interactor = get(), router = get(), stateHolder = RepositoriesStateHolder()) }
     }
