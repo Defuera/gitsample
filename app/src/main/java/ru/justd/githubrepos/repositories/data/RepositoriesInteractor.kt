@@ -19,7 +19,7 @@ class RepositoriesInteractor(
 
     } catch (e: IOException) {
         Result.Error(R.string.network_error)
-    } catch (e: UnexpectedResponse) {
+    } catch (e: UnexpectedFailure) {
         Result.Error(R.string.generic_error)
     }
 

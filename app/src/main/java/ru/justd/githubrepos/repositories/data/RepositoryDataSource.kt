@@ -5,7 +5,7 @@ import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import ru.justd.githubrepos.app.network.GithubApi
 
-class UnexpectedResponse : RuntimeException()
+class UnexpectedFailure : RuntimeException()
 
 class RepositoryDataSource(private val api: GithubApi) {
 
@@ -17,12 +17,12 @@ class RepositoryDataSource(private val api: GithubApi) {
         val response = api.getUserRepositories(query)
         
         if (response.isSuccessful) {
-            val jsonString = response.body?.string() ?: throw UnexpectedResponse()
+            val jsonString = response.body?.string() ?: throw UnexpectedFailure()
             val listMyData = Types.newParameterizedType(List::class.java, Repository::class.java)
             val adapter = moshi.adapter<List<Repository>>(listMyData)
             return adapter.fromJson(jsonString)
         } else {
-            throw UnexpectedResponse()
+            throw UnexpectedFailure()
         }
 
     }

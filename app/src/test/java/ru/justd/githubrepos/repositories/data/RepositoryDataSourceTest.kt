@@ -51,7 +51,7 @@ class RepositoryDataSourceTest {
         every { api.getUserRepositories(any()) } returns response
         every { response.isSuccessful } returns false
 
-        assertException(UnexpectedResponse::class.java) {
+        assertException(UnexpectedFailure::class.java) {
             testInstance.getRepositories("")
         }
 
@@ -65,7 +65,7 @@ class RepositoryDataSourceTest {
         every { response.isSuccessful } returns true
         every { response.body } returns null
 
-        assertException(UnexpectedResponse::class.java) {
+        assertException(UnexpectedFailure::class.java) {
             testInstance.getRepositories("")
         }
 
