@@ -1,14 +1,16 @@
 package ru.justd.githubrepos.repositories.data
 
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
+import ru.justd.githubrepos.app.BaseViewModel
 import ru.justd.githubrepos.app.Router
-import ru.justd.githubrepos.extentions.exhaustive
+import ru.justd.githubrepos.extensions.exhaustive
 
-sealed class Event {
-    class RepositoryClicked(val item: Repository) : Event()
-    class SearchInputUpdate(val username: String) : Event()
+sealed class RepositoriesEvent {
+    class RepositoryClicked(val item: Repository) : RepositoriesEvent()
+    class SearchInputUpdate(val username: String) : RepositoriesEvent()
 }
 
 private const val DEBOUNCE_TIME_MS = 600L
@@ -17,8 +19,8 @@ class RepositoriesViewModel(
     private val interactor: RepositoriesInteractor,
     private val router: Router,
     val stateHolder: RepositoriesStateHolder,
-    val debounceTime : Long = DEBOUNCE_TIME_MS
-) : ViewModel() {
+    val debounceTime: Long = DEBOUNCE_TIME_MS
+) : BaseViewModel<RepositoriesEvent, RepositoriesState>() {
 
     private var query = ""
 
@@ -27,17 +29,26 @@ class RepositoriesViewModel(
     }
 
 
+    //region BaseViewModel
+
+    override fun dispatch(event: RepositoriesEvent) {
+        when (event) {
+            is RepositoriesEvent.RepositoryClicked -> onRepositoryClicked(event.item)
+            is RepositoriesEvent.SearchInputUpdate -> onSearchInputFieldUpdated(event.username)
+        }
+    }
+
+    override fun observeViewStates(owner: LifecycleOwner, observer: Observer<RepositoriesState>) {
+        stateHolder.observe(owner, observer)
+    }
+
+    //endregion
+
+
     //region handle events
 
     private fun onRepositoryClicked(item: Repository) {
         router.navigateToRepositoryPage(item.id)
-    }
-
-    fun dispatch(event: Event) {
-        when (event) {
-            is Event.RepositoryClicked -> onRepositoryClicked(event.item)
-            is Event.SearchInputUpdate -> onSearchInputFieldUpdated(event.username)
-        }
     }
 
     private fun onSearchInputFieldUpdated(input: String) {

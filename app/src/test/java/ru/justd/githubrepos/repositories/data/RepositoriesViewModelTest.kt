@@ -45,7 +45,7 @@ class RepositoriesViewModelTest {
             every { interactor.getRepositories(any()) } returns Result.Success(listReposStub)
 
             // when
-            testInstance.dispatch(Event.SearchInputUpdate("dden"))
+            testInstance.dispatch(RepositoriesEvent.SearchInputUpdate("dden"))
 
             // then
             verify { interactor.getRepositories(any()) }
@@ -60,7 +60,7 @@ class RepositoriesViewModelTest {
         every { stateHolder.setInitialState() }
 
         // when
-        testInstance.dispatch(Event.RepositoryClicked(repo))
+        testInstance.dispatch(RepositoriesEvent.RepositoryClicked(repo))
 
         // then
         verify { router.navigateToRepositoryPage(any()) }
@@ -73,7 +73,7 @@ class RepositoriesViewModelTest {
         every { interactor.getRepositories(any()) } returns Result.Success(listReposStub)
 
         // when
-        testInstance.dispatch(Event.SearchInputUpdate("defuera"))
+        testInstance.dispatch(RepositoriesEvent.SearchInputUpdate("defuera"))
 
         // then
         verify(exactly = 1) { stateHolder.setDataState(listReposStub) }
@@ -86,7 +86,7 @@ class RepositoriesViewModelTest {
         every { interactor.getRepositories(any()) } returns Result.Error(13)
 
         // when
-        testInstance.dispatch(Event.SearchInputUpdate("defuera"))
+        testInstance.dispatch(RepositoriesEvent.SearchInputUpdate("defuera"))
 
         // then
         verify(exactly = 0) { stateHolder.setDataState(any()) }

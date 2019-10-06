@@ -16,17 +16,17 @@ import kotterknife.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.justd.duperadapter.ArrayListDuperAdapter
 import ru.justd.githubrepos.R
+import ru.justd.githubrepos.app.BaseViewModel
 import ru.justd.githubrepos.app.widgets.ErrorWidget
-import ru.justd.githubrepos.extentions.exhaustive
-import ru.justd.githubrepos.repositories.data.Event
+import ru.justd.githubrepos.extensions.exhaustive
+import ru.justd.githubrepos.repositories.data.RepositoriesEvent
 import ru.justd.githubrepos.repositories.data.RepositoriesState
-import ru.justd.githubrepos.repositories.data.RepositoriesViewModel
 import ru.justd.githubrepos.repositories.data.Repository
 import ru.justd.lilwidgets.LilLoaderWidget
 
 class RepositoriesFragment : Fragment() {
 
-    private val viewModel by viewModel<RepositoriesViewModel>()
+    private val viewModel by viewModel<BaseViewModel<RepositoriesEvent, RepositoriesState>>()
 
     private val searchView by bindView<EditText>(R.id.search_view)
     private val recycler by bindView<RecyclerView>(R.id.recycler_view)
@@ -40,7 +40,7 @@ class RepositoriesFragment : Fragment() {
                 }
             }
             .addViewBinder { widget, item -> widget.bind(item) }
-            .addClickListener { _, item -> viewModel.dispatch(Event.RepositoryClicked(item)) }
+            .addClickListener { _, item -> viewModel.dispatch(RepositoriesEvent.RepositoryClicked(item)) }
             .commit()
     }
 
@@ -55,10 +55,10 @@ class RepositoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchView.addTextChangedListener { text -> viewModel.dispatch(Event.SearchInputUpdate(text.toString())) }
+        searchView.addTextChangedListener { text -> viewModel.dispatch(RepositoriesEvent.SearchInputUpdate(text.toString())) }
         recycler.adapter = adapter
 
-        viewModel.stateHolder.observe(this,
+        viewModel.observeViewStates(this,
             Observer {
                 when (it) {
                     is RepositoriesState.Initial -> showInitialState()

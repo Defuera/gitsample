@@ -2,6 +2,7 @@ package ru.justd.githubrepos.repositories.data
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import ru.justd.githubrepos.app.BaseViewModel
 
 object RepositoriesModule {
 
@@ -11,7 +12,13 @@ object RepositoriesModule {
 
         factory { RepositoriesInteractor(dataSource = get()) }
 
-        viewModel { RepositoriesViewModel(interactor = get(), router = get(), stateHolder = RepositoriesStateHolder()) }
+        viewModel<BaseViewModel<RepositoriesEvent, RepositoriesState>> {
+            RepositoriesViewModel(
+                interactor = get(),
+                router = get(),
+                stateHolder = RepositoriesStateHolder()
+            )
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package ru.justd.githubrepos.extentions
+package ru.justd.githubrepos.extensions
 
 val <T> T.exhaustive: T
     get() = this
