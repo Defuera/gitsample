@@ -16,7 +16,8 @@ private const val DEBOUNCE_TIME_MS = 600L
 class RepositoriesViewModel(
     private val interactor: RepositoriesInteractor,
     private val router: Router,
-    val stateHolder: RepositoriesStateHolder
+    val stateHolder: RepositoriesStateHolder,
+    val debounceTime : Long = DEBOUNCE_TIME_MS
 ) : ViewModel() {
 
     private var query = ""
@@ -28,6 +29,10 @@ class RepositoriesViewModel(
 
     //region handle events
 
+    private fun onRepositoryClicked(item: Repository) {
+        router.navigateToRepositoryPage(item.id)
+    }
+
     fun dispatch(event: Event) {
         when (event) {
             is Event.RepositoryClicked -> onRepositoryClicked(event.item)
@@ -35,15 +40,11 @@ class RepositoriesViewModel(
         }
     }
 
-    private fun onRepositoryClicked(item: Repository) {
-        router.navigateToRepositoryPage(item.id)
-    }
-
     private fun onSearchInputFieldUpdated(input: String) {
         if (query != input) {
             query = input
             GlobalScope.launch {
-                delay(DEBOUNCE_TIME_MS)
+                delay(debounceTime)
                 if (query == input) {
                     fetchRepositories(query)
                 }
