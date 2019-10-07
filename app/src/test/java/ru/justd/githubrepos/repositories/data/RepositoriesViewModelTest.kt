@@ -56,7 +56,7 @@ class RepositoriesViewModelTest {
     fun `given repository clicked then navigation is invoked`() {
         // given
         val repo = mockk<Repository>()
-        every { repo.id } returns "1"
+        every { repo.name } returns "name_1"
         every { stateHolder.setInitialState() }
 
         // when

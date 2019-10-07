@@ -26,20 +26,4 @@ class RepositoriesRobot {
         ).check(matches(isDisplayed()))
     }
 
-    //not quite, it's better to check data for RecyclerView, not view
-    fun checkRepositoryIsDisplayed(name: String? = null, fork: Boolean? = null) {
-        if (name != null) {
-            onView(
-                allOf(
-                    withId(R.id.name_value),
-                    withText(name)
-                )
-            ).check(matches(isDisplayed()))
-        }
-
-        if (fork != null) {
-            onView(withId(R.id.forked_label)).check(matches(isDisplayed()))
-        }
-    }
-
 }
