@@ -19,7 +19,7 @@ import ru.justd.githubrepos.app.widgets.ErrorWidget
 import ru.justd.githubrepos.commits.data.Commit
 import ru.justd.githubrepos.commits.data.CommitsState
 import ru.justd.githubrepos.commits.data.CommitsViewModel
-import ru.justd.githubrepos.extensions.exhaustive
+import ru.justd.githubrepos.app.extensions.exhaustive
 import ru.justd.lilwidgets.LilLoaderWidget
 
 class CommitsFragment : Fragment() {

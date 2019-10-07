@@ -18,7 +18,7 @@ import ru.justd.duperadapter.ArrayListDuperAdapter
 import ru.justd.githubrepos.R
 import ru.justd.githubrepos.app.BaseViewModel
 import ru.justd.githubrepos.app.widgets.ErrorWidget
-import ru.justd.githubrepos.extensions.exhaustive
+import ru.justd.githubrepos.app.extensions.exhaustive
 import ru.justd.githubrepos.repositories.data.RepositoriesEvent
 import ru.justd.githubrepos.repositories.data.RepositoriesState
 import ru.justd.githubrepos.repositories.data.Repository

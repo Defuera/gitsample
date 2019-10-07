@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import ru.justd.githubrepos.extensions.reObserve
+import ru.justd.githubrepos.app.extensions.reObserve
 
 class RepositoriesStateHolder {
 

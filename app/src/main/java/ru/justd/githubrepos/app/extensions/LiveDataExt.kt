@@ -1,4 +1,4 @@
-package ru.justd.githubrepos.extensions
+package ru.justd.githubrepos.app.extensions
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

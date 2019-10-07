@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.justd.githubrepos.app.BaseViewModel
 import ru.justd.githubrepos.app.Router
-import ru.justd.githubrepos.extensions.exhaustive
+import ru.justd.githubrepos.app.extensions.exhaustive
 
 sealed class RepositoriesEvent {
     class RepositoryClicked(val item: Repository) : RepositoriesEvent()

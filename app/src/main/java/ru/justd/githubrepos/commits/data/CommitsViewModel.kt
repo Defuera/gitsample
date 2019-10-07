@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.justd.githubrepos.extensions.exhaustive
+import ru.justd.githubrepos.app.extensions.exhaustive
 
 class CommitsViewModel(
     private val user: String,
