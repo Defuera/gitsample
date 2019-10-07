@@ -31,7 +31,7 @@ object AppModule {
             GithubApi(okHttp = get())
         }
 
-        factory { Router() }
+        single { Router() }
     }
 
 }

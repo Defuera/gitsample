@@ -48,7 +48,7 @@ class RepositoriesViewModel(
     //region handle events
 
     private fun onRepositoryClicked(item: Repository) {
-        router.navigateToRepositoryPage(item.id)
+        router.navigateToCommitsPage(query, item.name)
     }
 
     private fun onSearchInputFieldUpdated(input: String) {

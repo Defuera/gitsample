@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.github.Defuera:lilwidgets:9886a58c8036f39c5a08a1bab97f3c4e61810c7f'
     implementation 'com.github.Defuera:duper-adapter:60a36a2d4ec64a58d16f9b1bd84fff1ae304502f'
     implementation 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Live data
     implementation "androidx.lifecycle:lifecycle-livedata:2.1.0"

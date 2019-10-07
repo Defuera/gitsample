@@ -63,7 +63,7 @@ class RepositoriesViewModelTest {
         testInstance.dispatch(RepositoriesEvent.RepositoryClicked(repo))
 
         // then
-        verify { router.navigateToRepositoryPage(any()) }
+        verify { router.navigateToCommitsPage(any(), any()) }
     }
 
     @Test

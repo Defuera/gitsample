@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         router.init(this)
 
         if (savedInstanceState == null) {
-            router.showSearchPage()
+            router.showSearchRepositoriesPage()
         }
     }
 }
