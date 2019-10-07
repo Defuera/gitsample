@@ -25,6 +25,7 @@ class CommitWidget(context: Context) : LinearLayout(context) {
         username.text = commit.author?.login
         Picasso.get()
             .load(commit.author?.avatar_url)
+            .placeholder(R.drawable.avatar_placeholder)
             .into(avatar)
     }
 

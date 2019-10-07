@@ -16,8 +16,9 @@ class Router {
     fun navigateToCommitsPage(username: String, repoId: String) {
         activity.supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragment_container, CommitsFragment.newInstance(username, repoId))
-            .addToBackStack("root")
+            .hide(activity.supportFragmentManager.fragments.first())
+            .add(R.id.fragment_container, CommitsFragment.newInstance(username, repoId))
+            .addToBackStack(null)
             .commit()
     }
 
